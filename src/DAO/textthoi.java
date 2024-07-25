@@ -10,4 +10,6 @@ package DAO;
  */
 public class textthoi {
     int a;
+    
+    int c;
 }
