@@ -59,17 +59,18 @@ public class NhanvienDAO {
         return false;
     }
 
-    // Xóa nhân viên
-    public boolean deleteNhanvien(String maNV) {
-        String sql = "DELETE FROM Nhanvien WHERE maNV = ?";
-        try {
-            XJdbc.update(sql, maNV);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+  public boolean deleteNhanvien(String maNV) {
+    String sql = "{call [dbo].[XoaNhanVien](?)}"; // Gọi thủ tục lưu trữ
+    try {
+        // Thực hiện gọi thủ tục lưu trữ
+        XJdbc.update(sql, maNV);
+        return true;
+    } catch (Exception e) {
+        e.printStackTrace(); // In thông tin lỗi nếu có
     }
+    return false; // Trả về false nếu có lỗi xảy ra
+}
+
 
     // Tìm nhân viên theo mã
     public Nhanvien getNhanvienById(String maNV) {

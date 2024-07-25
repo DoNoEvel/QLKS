@@ -410,6 +410,7 @@ void fillTable() {
     }
 }
 void clearForm() {
+    // Xóa nội dung các trường nhập liệu
     txtidnv.setText("");
     txthoten.setText("");
     txtngsinh.setText("");
@@ -419,7 +420,14 @@ void clearForm() {
     txtluong.setText("");
     txtmk.setText("");
     cbovaitro.setSelectedIndex(0); // Đặt lại giá trị mặc định cho combobox
+    
+    // Đặt lại trạng thái cho nút btnthem
+    btnthem.setEnabled(true);
+    
+    // Deselect tất cả các hàng trong bảng tblnhanvien
+    tblnhanvien.clearSelection();
 }
+
 
 void setForm(Nhanvien nv) {
     txtidnv.setText(nv.getMaNV());
@@ -532,12 +540,20 @@ public void delete() {
     boolean confirm = MsgBox.confirm(this, "Bạn có chắc chắn muốn xóa nhân viên này không?");
     if (confirm) {
         try {
-            dao.deleteNhanvien(maNV); // Xóa nhân viên khỏi cơ sở dữ liệu
-            this.fillTable(); // Cập nhật lại bảng hiển thị sau khi xóa thành công
-            MsgBox.alert(this, "Xóa nhân viên thành công!"); // Thông báo thành công
+            // Thực hiện xóa nhân viên từ cơ sở dữ liệu
+            dao.deleteNhanvien(maNV);
+            
+            // Cập nhật lại bảng hiển thị sau khi xóa thành công
+            fillTable(); 
+            
+            // Thông báo thành công
+            MsgBox.alert(this, "Xóa nhân viên thành công!");
         } catch (Exception e) {
-            MsgBox.alert(this, "Xóa nhân viên thất bại!"); // Thông báo thất bại
-            e.printStackTrace(); // In ra thông tin lỗi để kiểm tra (nếu cần)
+            // Thông báo thất bại
+            MsgBox.alert(this, "Xóa nhân viên thất bại!"); 
+            
+            // In ra thông tin lỗi để kiểm tra (nếu cần)
+            e.printStackTrace(); 
         }
     }
 }
