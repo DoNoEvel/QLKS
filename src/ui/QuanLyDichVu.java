@@ -4,6 +4,12 @@
  */
 package ui;
 
+import DAO.DichvuDAO;
+import entity.Dichvu;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import utils.MsgBox;
+
 /**
  *
  * @author ASUS
@@ -17,6 +23,7 @@ public class QuanLyDichVu extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        fillTable();
     }
 
     /**
@@ -32,14 +39,14 @@ public class QuanLyDichVu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtmadv = new javax.swing.JTextField();
+        txttendv = new javax.swing.JTextField();
+        txtgiadv = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        tbldichvu = new javax.swing.JTable();
+        btnthem = new javax.swing.JButton();
+        btnxoa = new javax.swing.JButton();
+        btnsua = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,24 +61,26 @@ public class QuanLyDichVu extends javax.swing.JFrame {
 
         jLabel4.setText("Giá:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbldichvu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Mã DV", "Tên DV", "Giá"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbldichvu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbldichvuMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbldichvu);
 
-        jButton1.setText("Thêm");
+        btnthem.setText("Thêm");
 
-        jButton2.setText("Xóa");
+        btnxoa.setText("Xóa");
 
-        jButton3.setText("Sửa");
+        btnsua.setText("Sửa");
 
         jButton4.setText("<");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -92,9 +101,9 @@ public class QuanLyDichVu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnthem, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(btnxoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnsua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,9 +115,9 @@ public class QuanLyDichVu extends javax.swing.JFrame {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(txtmadv)
+                                    .addComponent(txttendv)
+                                    .addComponent(txtgiadv, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -125,21 +134,21 @@ public class QuanLyDichVu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtmadv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txttendv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtgiadv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnthem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnxoa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(btnsua))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -152,6 +161,10 @@ public class QuanLyDichVu extends javax.swing.JFrame {
     AM.setVisible(true);
     this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void tbldichvuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbldichvuMouseClicked
+        tblDichvuMouseClicked(evt);
+    }//GEN-LAST:event_tbldichvuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -189,18 +202,62 @@ public class QuanLyDichVu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnsua;
+    private javax.swing.JButton btnthem;
+    private javax.swing.JButton btnxoa;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tbldichvu;
+    private javax.swing.JTextField txtgiadv;
+    private javax.swing.JTextField txtmadv;
+    private javax.swing.JTextField txttendv;
     // End of variables declaration//GEN-END:variables
+DichvuDAO daodv = new DichvuDAO();
+int row = -1;
+    void fillTable() {
+    DefaultTableModel model = (DefaultTableModel) tbldichvu.getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện tại
+    try {
+        List<Dichvu> list = daodv.getAllDichvu(); // Lấy danh sách nhân viên từ cơ sở dữ liệu
+        for (Dichvu dv : list) {
+            Object[] row = {
+                dv.getMaDV(),
+                dv.getTenDV(),
+                dv.getGiaDV()
+            };
+            model.addRow(row); // Thêm hàng vào bảng
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+    }
+}
+    private void tblDichvuMouseClicked(java.awt.event.MouseEvent evt) {
+    row = tbldichvu.getSelectedRow();
+    if (row >= 0) {
+        String madv = (String) tbldichvu.getValueAt(row, 0);
+        Dichvu nv = daodv.getNhadvienById(madv);
+        this.setForm(nv);
+        this.updateStatus();
+    }
+}
+    void setForm(Dichvu dv) {
+    txtmadv.setText(dv.getMaDV());
+    txttendv.setText(dv.getTenDV());
+    txtgiadv.setText(String.valueOf(dv.getGiaDV()));
+}
+void updateStatus() {
+    boolean edit = (row >= 0);
+    boolean first = (row == 0);
+    boolean last = (row == tbldichvu.getRowCount() - 1);
+
+    // Trạng thái của các nút điều khiển
+    btnthem.setEnabled(!edit);
+    btnsua.setEnabled(edit);
+    btnxoa.setEnabled(edit);
+}
 }

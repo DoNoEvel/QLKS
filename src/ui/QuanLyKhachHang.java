@@ -4,7 +4,16 @@
  */
 package ui;
 
+import DAO.DatphongDAO;
+import DAO.KhachhangDAO;
+import DAO.PhongDAO;
+import entity.Datphong;
+import entity.Khachhang;
+import entity.Phong;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import utils.Auth;
+import utils.MsgBox;
 
 /**
  *
@@ -18,6 +27,7 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
     public QuanLyKhachHang() {
         initComponents();
         this.setLocationRelativeTo(null);
+        fillTable();
     }
 
     /**
@@ -91,7 +101,7 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbldichvu = new javax.swing.JTable();
         jTextField11 = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -100,7 +110,7 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblttkh = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
 
@@ -258,13 +268,10 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Số PHG", "Số tầng", "Tên khách hàng", "Trạng thái", "Ngày đặt", "Hình thức thuê"
+                "Số PHG", "Tên khách hàng", "Trạng thái", "Ngày đặt", "Hình thức thuê"
             }
         ));
         jScrollPane3.setViewportView(jTable1);
@@ -407,18 +414,15 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
 
         jLabel17.setText("Số PHG:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbldichvu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Dịch vụ", "Phí dịch vụ"
             }
         ));
-        jScrollPane4.setViewportView(jTable2);
+        jScrollPane4.setViewportView(tbldichvu);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -524,18 +528,15 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
 
         tabs.addTab("ĐẶT/TRẢ PHÒNG", jPanel2);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblttkh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã KH", "Tên KH", "CCCD", "Địa chỉ", "SĐT", "Mã PHG"
             }
         ));
-        jScrollPane5.setViewportView(jTable3);
+        jScrollPane5.setViewportView(tblttkh);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -770,8 +771,6 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -786,6 +785,8 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
     private javax.swing.JLabel lblTenCD;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblKhoaHoc;
+    private javax.swing.JTable tbldichvu;
+    private javax.swing.JTable tblttkh;
     private javax.swing.JTextArea txtGhiChu;
     private javax.swing.JTextField txtHocPhi;
     private javax.swing.JTextField txtMaNV;
@@ -793,4 +794,41 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
     private javax.swing.JTextField txtNgayTao;
     private javax.swing.JTextField txtThoiLuong;
     // End of variables declaration//GEN-END:variables
+KhachhangDAO dao = new KhachhangDAO();
+DatphongDAO daophg = new DatphongDAO();
+
+void fillTable() {
+    // Kết nối đến cơ sở dữ liệu (SQL Server) bằng JDBC
+
+    // Truy vấn dữ liệu từ hai bảng Khachhang và Datphong
+    List<Khachhang> listKhachhang = dao.getAllKhachhang();
+    List<Datphong> listDathong = daophg.getAllDatphong();
+
+    // Tạo DefaultTableModel cho bảng
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Mã KH");
+    model.addColumn("Tên KH");
+    model.addColumn("SĐT KH");
+    model.addColumn("CCCD");
+    model.addColumn("Địa chỉ KH");
+    model.addColumn("Mã PHG");
+
+    // Đổ dữ liệu từ danh sách vào bảng
+    for (int i = 0; i < Math.min(listKhachhang.size(), listDathong.size()); i++) {
+        Khachhang kh = listKhachhang.get(i);
+        Datphong dp = listDathong.get(i);
+        Object[] row = {
+            kh.getMaKH(),
+            kh.getTenKH(),
+            kh.getSdtKH(),
+            kh.getCccd(),
+            kh.getDiachiKH(),
+            dp.getMaPHG()
+        };
+        model.addRow(row);
+    }
+
+    // Gán model cho JTable (tblttkh là tên bảng của bạn)
+    tblttkh.setModel(model);
+}
 }

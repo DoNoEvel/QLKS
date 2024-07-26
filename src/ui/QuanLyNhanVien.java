@@ -6,12 +6,10 @@ package ui;
 
 import DAO.NhanvienDAO;
 import entity.Nhanvien;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utils.MsgBox;
 

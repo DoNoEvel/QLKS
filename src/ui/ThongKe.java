@@ -311,22 +311,13 @@ public class ThongKe extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã NV", "Họ và tên", "Ngày sinh", "SĐT", "Địa chỉ", "Lương"
             }
         ));
         jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(2).setHeaderValue("Ngày sinh");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("SĐT");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Địa chỉ");
-            jTable1.getColumnModel().getColumn(5).setHeaderValue("Lương");
-        }
 
         jButton5.setText("Tăng");
 
@@ -369,10 +360,7 @@ public class ThongKe extends javax.swing.JFrame {
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Tháng", "Tổng"
