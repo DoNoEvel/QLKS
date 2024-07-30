@@ -48,6 +48,15 @@ public class Dichvu {
     public Dichvu() {
     }
 
+    @Override
+    public String toString() {
+        return tenDV; // Trả về tên dịch vụ để hiển thị trong JComboBox
+    }
+
+    public Dichvu(String tenDV, float giaDV) {
+        this.tenDV = tenDV;
+        this.giaDV = giaDV;
+    }
     
 }
 

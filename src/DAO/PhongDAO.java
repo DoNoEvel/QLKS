@@ -61,16 +61,20 @@ public class PhongDAO {
         }
         return null;
     }
-    public boolean updatePhong(Phong nv) {
-        String sql = "UPDATE Phong SET MaPHG = ?, LoaiPHG = ?, GiaPHG = ?";
-        try {
-            XJdbc.update(sql, nv.getMaPHG(), nv.getLoaiPHG(), nv.getGiaPHG());
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+public boolean updatePhong(Phong phong) {
+    // Câu lệnh SQL để cập nhật thông tin phòng
+    String sqlUpdatePhong = "UPDATE Phong SET LoaiPHG = ?, GiaPHG = ? WHERE MaPHG = ?";
+    
+    try {
+        // Cập nhật thông tin phòng trong bảng Phong
+        XJdbc.update(sqlUpdatePhong, phong.getLoaiPHG(), phong.getGiaPHG(), phong.getMaPHG());
+
+        return true;
+    } catch (Exception e) {
+        e.printStackTrace();
         return false;
     }
+}
     public boolean deletePhong(String MaPHG) {
         String sql = "DELETE FROM Phong WHERE MaPHG = ?";
         try {
@@ -81,4 +85,5 @@ public class PhongDAO {
         }
         return false;
     }
+    
 }

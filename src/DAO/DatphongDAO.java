@@ -37,4 +37,40 @@ public class DatphongDAO {
         }
         return list;
     }
+    
+    public Datphong getDatphongByMaKH(String maKH) {
+    String sql = "SELECT * FROM Datphong WHERE maKH = ?";
+    try {
+        ResultSet rs = XJdbc.query(sql, maKH);
+        if (rs.next()) {
+            Datphong dp = new Datphong();
+            dp.setNgDat(rs.getDate("NgDat"));
+            dp.setNgXuat(rs.getDate("NgXuat"));
+            dp.setMaDatPHG(rs.getString("MaDatPHG"));
+            dp.setMaPHG(rs.getString("MaPHG"));
+            dp.setMaKH(rs.getString("MaKH"));
+            dp.setMaNV(rs.getString("MaNV"));
+            return dp;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+public void addDatphong(String ngayDat, String ngayTra, String maPHG, String maKH, String maNV) {
+        String sql = "INSERT INTO Datphong (ngDat, ngXuat, maPHG, maKH, maNV) VALUES (?, ?, ?, ?, ?)";
+        XJdbc.update(sql, ngayDat, ngayTra, maKH, maPHG, maNV);
+    }
+public int getLatestMaDP() {
+        String sql = "SELECT SCOPE_IDENTITY() AS MaDatPHG";
+        ResultSet rs = XJdbc.query(sql);
+        try {
+            if (rs.next()) {
+                return rs.getInt("MaDatPHG");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }

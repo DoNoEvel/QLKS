@@ -48,6 +48,7 @@ public class QuanLyPhong extends javax.swing.JFrame {
         txtloaiphg = new javax.swing.JTextField();
         txtgiaphg = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +108,13 @@ public class QuanLyPhong extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,6 +125,8 @@ public class QuanLyPhong extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnthem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnxoa)
@@ -165,7 +175,8 @@ public class QuanLyPhong extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnthem)
                     .addComponent(btnxoa)
-                    .addComponent(btnsua))
+                    .addComponent(btnsua)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -200,6 +211,10 @@ public class QuanLyPhong extends javax.swing.JFrame {
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         update();
     }//GEN-LAST:event_btnsuaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     clearForm();
+    }//GEN-LAST:event_jButton1ActionPerformed
 void updateStatus() {
     boolean edit = (row >= 0);
     boolean first = (row == 0);
@@ -287,28 +302,34 @@ void updateStatus() {
                 MsgBox.alert(this, "Thêm mới thất bại!");
             }
     }
-    void delete(){
-        if(!Auth.isManager()){
-            MsgBox.alert(this, "Bạn không có quyền xóa!");
-        }
-        else{
-            String manv = txtmaphg.getText();
-            if(manv.equals(Auth.user.getMaNV())){
-                MsgBox.alert(this, "Bạn không được xóa chính bạn!");
-            }
-            else if(MsgBox.confirm(this, "Bạn thực sự muốn xóa nhân viên này?")){
-                try {
-                    dao.deletePhong(manv);
-                    this.fillTable();
-                    this.clearForm();
-                    MsgBox.alert(this, "Xóa thành công!");
-                } 
-                catch (Exception e) {
-                    MsgBox.alert(this, "Xóa thất bại!");
-                }
-            }
+    public void delete() {
+    String MaDV = txtmaphg.getText(); // Lấy mã nhân viên từ trường nhập liệu
+
+    if (MaDV.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng nhập mã nhân viên cần xóa!"); // Thông báo nếu mã nhân viên trống
+        return;
+    }
+
+    boolean confirm = MsgBox.confirm(this, "Bạn có chắc chắn muốn xóa nhân viên này không?");
+    if (confirm) {
+        try {
+            // Thực hiện xóa nhân viên từ cơ sở dữ liệu
+            dao.deletePhong(MaDV);
+            
+            // Cập nhật lại bảng hiển thị sau khi xóa thành công
+            fillTable(); 
+            
+            // Thông báo thành công
+            MsgBox.alert(this, "Xóa nhân viên thành công!");
+        } catch (Exception e) {
+            // Thông báo thất bại
+            MsgBox.alert(this, "Xóa nhân viên thất bại!"); 
+            
+            // In ra thông tin lỗi để kiểm tra (nếu cần)
+            e.printStackTrace(); 
         }
     }
+}
 public Phong getForm() {
     Phong nv = new Phong();
     nv.setMaPHG(txtmaphg.getText());
@@ -320,6 +341,8 @@ void clearForm(){
     txtmaphg.setText("");
     txtloaiphg.setText("");
     txtgiaphg.setText("");
+    btnthem.setEnabled(true);
+    this.fillTable();
 }
 void setForm(Phong nv) {
     txtmaphg.setText(nv.getMaPHG());
@@ -330,6 +353,7 @@ void setForm(Phong nv) {
     private javax.swing.JButton btnsua;
     private javax.swing.JButton btnthem;
     private javax.swing.JButton btnxoa;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

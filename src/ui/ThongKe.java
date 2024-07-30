@@ -4,6 +4,16 @@
  */
 package ui;
 
+import DAO.NhanvienDAO;
+import entity.Nhanvien;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import utils.MsgBox;
+
 /**
  *
  * @author ASUS
@@ -16,6 +26,7 @@ public class ThongKe extends javax.swing.JFrame {
     public ThongKe() {
         initComponents();
         this.setLocationRelativeTo(null);
+        fillTable();
     }
 
     /**
@@ -67,15 +78,15 @@ public class ThongKe extends javax.swing.JFrame {
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        tblnhanvien = new javax.swing.JTable();
+        btntang = new javax.swing.JButton();
+        btngiam = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        tblthongtin = new javax.swing.JTable();
+        btntang1 = new javax.swing.JButton();
+        btngiam1 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -309,19 +320,29 @@ public class ThongKe extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblnhanvien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã NV", "Họ và tên", "Ngày sinh", "SĐT", "Địa chỉ", "Lương"
+                "Mã NV", "Họ và tên", "Ngày sinh", "SĐT", "Giới tính", "Địa chỉ", "Lương"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblnhanvien);
 
-        jButton5.setText("Tăng");
+        btntang.setText("Tăng");
+        btntang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntangActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Giảm");
+        btngiam.setText("Giảm");
+        btngiam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngiamActionPerformed(evt);
+            }
+        });
 
         jButton12.setText("<");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -339,9 +360,9 @@ public class ThongKe extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(btntang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(btngiam)
                 .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
@@ -350,27 +371,37 @@ public class ThongKe extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
+                    .addComponent(btntang)
+                    .addComponent(btngiam)
                     .addComponent(jButton12))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         tabs.addTab("NHÂN VIÊN", jPanel1);
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblthongtin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tháng", "Tổng"
+                "Tháng", "Số lượng", "Tổng"
             }
         ));
-        jScrollPane7.setViewportView(jTable5);
+        jScrollPane7.setViewportView(tblthongtin);
 
-        jButton9.setText("Tăng");
+        btntang1.setText("Tăng");
+        btntang1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntang1ActionPerformed(evt);
+            }
+        });
 
-        jButton10.setText("Giảm");
+        btngiam1.setText("Giảm");
+        btngiam1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngiam1ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("<");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -388,9 +419,9 @@ public class ThongKe extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton9)
+                .addComponent(btntang1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10)
+                .addComponent(btngiam1)
                 .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
@@ -399,10 +430,10 @@ public class ThongKe extends javax.swing.JFrame {
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
-                    .addComponent(jButton10)
+                    .addComponent(btntang1)
+                    .addComponent(btngiam1)
                     .addComponent(jButton11))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         tabs.addTab("THÔNG TIN", jPanel2);
@@ -411,13 +442,11 @@ public class ThongKe extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs)
+            .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs)
-                .addContainerGap())
+            .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -436,16 +465,32 @@ public class ThongKe extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-    Admin AM = new Admin();
-    AM.setVisible(true);
-    this.dispose();
+        Admin AM = new Admin();
+        AM.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-    Admin AM = new Admin();
-    AM.setVisible(true);
-    this.dispose();
+        Admin AM = new Admin();
+        AM.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void btntangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntangActionPerformed
+        btntang();
+    }//GEN-LAST:event_btntangActionPerformed
+
+    private void btngiamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngiamActionPerformed
+        btngiam();
+    }//GEN-LAST:event_btngiamActionPerformed
+
+    private void btntang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntang1ActionPerformed
+
+    }//GEN-LAST:event_btntang1ActionPerformed
+
+    private void btngiam1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngiam1ActionPerformed
+
+    }//GEN-LAST:event_btngiam1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -483,18 +528,18 @@ public class ThongKe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btngiam;
+    private javax.swing.JButton btngiam1;
+    private javax.swing.JButton btntang;
+    private javax.swing.JButton btntang1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel11;
@@ -519,11 +564,9 @@ public class ThongKe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -533,5 +576,101 @@ public class ThongKe extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTable tblnhanvien;
+    private javax.swing.JTable tblthongtin;
     // End of variables declaration//GEN-END:variables
+NhanvienDAO dao = new NhanvienDAO();
+
+    void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện tại
+        try {
+            List<Nhanvien> list = dao.getAllNhanvien(); // Lấy danh sách nhân viên từ cơ sở dữ liệu
+            for (Nhanvien nv : list) {
+                Object[] row = {
+                    nv.getMaNV(),
+                    nv.getTenNV(),
+                    new SimpleDateFormat("dd/MM/yyyy").format(nv.getNgsinh()),
+                    nv.getSdtNV(),
+                    nv.getGioitinh(),
+                    nv.getDiachiNV(),
+                    nv.getLuong(),};
+                model.addRow(row); // Thêm hàng vào bảng
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void btntang() {
+        DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
+        List<Nhanvien> list = getTableData(model);
+
+        Collections.sort(list, new Comparator<Nhanvien>() {
+            @Override
+            public int compare(Nhanvien nv1, Nhanvien nv2) {
+                return Float.compare(nv1.getLuong(), nv2.getLuong());
+            }
+        });
+
+        updateTable(model, list);
+    }
+
+    void btngiam() {
+        DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
+        List<Nhanvien> list = getTableData(model);
+
+        Collections.sort(list, new Comparator<Nhanvien>() {
+            @Override
+            public int compare(Nhanvien nv1, Nhanvien nv2) {
+                return Float.compare(nv2.getLuong(), nv1.getLuong());
+            }
+        });
+
+        updateTable(model, list);
+    }
+
+    private List<Nhanvien> getTableData(DefaultTableModel model) {
+        List<Nhanvien> list = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            try {
+                String maNV = (String) model.getValueAt(i, 0);
+                String hoTen = (String) model.getValueAt(i, 1);
+                java.util.Date ngaySinh = sdf.parse((String) model.getValueAt(i, 2));
+                String sdt = (String) model.getValueAt(i, 3);
+                String gioiTinh = (String) model.getValueAt(i, 4);
+                String diaChi = (String) model.getValueAt(i, 5);
+                float luong = ((Number) model.getValueAt(i, 6)).floatValue();
+
+                Nhanvien nv = new Nhanvien(maNV, hoTen, new java.sql.Date(ngaySinh.getTime()), sdt, diaChi, gioiTinh, luong, null, null);
+                list.add(nv);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+
+    private void updateTable(DefaultTableModel model, List<Nhanvien> list) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        model.setRowCount(0); // Clear existing rows
+
+        for (Nhanvien nv : list) {
+            Object[] row = {
+                nv.getMaNV(),
+                nv.getTenNV(),
+                sdf.format(nv.getNgsinh()),
+                nv.getSdtNV(),
+                nv.getGioitinh(),
+                nv.getDiachiNV(),
+                nv.getLuong()
+            };
+            model.addRow(row);
+        }
+    }
+    
 }

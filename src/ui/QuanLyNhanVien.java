@@ -90,11 +90,23 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
 
         cbovaitro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VT01", "VT02", "VT03", " " }));
 
+        txtidnv.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtidnvKeyReleased(evt);
+            }
+        });
+
         jLabel7.setText("Lương:");
 
         jLabel12.setText("Mã vai trò:");
 
         jLabel11.setText("Giới tính:");
+
+        txthoten.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txthotenKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Họ và tên:");
 
@@ -382,6 +394,32 @@ public Nhanvien getForm() {
     return nv;
 }
 
+private void searchAndUpdateTable() {
+    String maNV = txtidnv.getText().trim(); // Lấy mã nhân viên từ TextField
+
+    // Khởi tạo DAO và lấy danh sách nhân viên dựa trên mã nhân viên
+    NhanvienDAO daoNhanvien = new NhanvienDAO();
+    List<Nhanvien> list = daoNhanvien.searchNhanvienByMaNV(maNV);
+
+    // Cập nhật bảng với kết quả tìm kiếm
+    DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện tại
+
+    for (Nhanvien nv : list) {
+        Object[] row = {
+            nv.getMaNV(),
+            nv.getTenNV(),
+            new SimpleDateFormat("dd/MM/yyyy").format(nv.getNgsinh()),
+            nv.getSdtNV(),
+            nv.getDiachiNV(),
+            nv.getGioitinh(),
+            nv.getLuong(),
+            nv.getMk(),
+            nv.getMaVaitro()
+        };
+        model.addRow(row);
+    }
+}
 
 void fillTable() {
     DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
@@ -424,6 +462,7 @@ void clearForm() {
     
     // Deselect tất cả các hàng trong bảng tblnhanvien
     tblnhanvien.clearSelection();
+    this.fillTable();
 }
 
 
@@ -556,6 +595,32 @@ public void delete() {
     }
 }
 
+private void searchAndUpdateTableByName() {
+    String tenNV = txthoten.getText().trim(); // Lấy tên nhân viên từ TextField
+
+    // Khởi tạo DAO và lấy danh sách nhân viên dựa trên tên nhân viên
+    NhanvienDAO daoNhanvien = new NhanvienDAO();
+    List<Nhanvien> list = daoNhanvien.searchNhanvienByName(tenNV);
+
+    // Cập nhật bảng với kết quả tìm kiếm
+    DefaultTableModel model = (DefaultTableModel) tblnhanvien.getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện tại
+
+    for (Nhanvien nv : list) {
+        Object[] row = {
+            nv.getMaNV(),
+            nv.getTenNV(),
+            new SimpleDateFormat("dd/MM/yyyy").format(nv.getNgsinh()),
+            nv.getSdtNV(),
+            nv.getDiachiNV(),
+            nv.getGioitinh(),
+            nv.getLuong(),
+            nv.getMk(),
+            nv.getMaVaitro()
+        };
+        model.addRow(row);
+    }
+}
 
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
@@ -594,6 +659,14 @@ public void delete() {
     private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
      delete();
     }//GEN-LAST:event_btnxoaActionPerformed
+
+    private void txtidnvKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidnvKeyReleased
+       searchAndUpdateTable();
+    }//GEN-LAST:event_txtidnvKeyReleased
+
+    private void txthotenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txthotenKeyReleased
+       searchAndUpdateTableByName();
+    }//GEN-LAST:event_txthotenKeyReleased
 
     /**
      * @param args the command line arguments

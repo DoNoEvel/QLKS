@@ -8,6 +8,7 @@ import DAO.DichvuDAO;
 import entity.Dichvu;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import utils.Auth;
 import utils.MsgBox;
 
 /**
@@ -48,6 +49,7 @@ public class QuanLyDichVu extends javax.swing.JFrame {
         btnxoa = new javax.swing.JButton();
         btnsua = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,15 +79,37 @@ public class QuanLyDichVu extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbldichvu);
 
         btnthem.setText("Thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthemActionPerformed(evt);
+            }
+        });
 
         btnxoa.setText("Xóa");
+        btnxoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxoaActionPerformed(evt);
+            }
+        });
 
         btnsua.setText("Sửa");
+        btnsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsuaActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("<");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -99,12 +123,6 @@ public class QuanLyDichVu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnthem, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                            .addComponent(btnxoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnsua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton4)
@@ -117,7 +135,14 @@ public class QuanLyDichVu extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtmadv)
                                     .addComponent(txttendv)
-                                    .addComponent(txtgiadv, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(txtgiadv, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnthem, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(btnxoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnsua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -148,9 +173,11 @@ public class QuanLyDichVu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnxoa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnsua))
+                        .addComponent(btnsua)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,6 +192,22 @@ public class QuanLyDichVu extends javax.swing.JFrame {
     private void tbldichvuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbldichvuMouseClicked
         tblDichvuMouseClicked(evt);
     }//GEN-LAST:event_tbldichvuMouseClicked
+
+    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
+        update();
+    }//GEN-LAST:event_btnsuaActionPerformed
+
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+        insert();
+    }//GEN-LAST:event_btnthemActionPerformed
+
+    private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
+        delete();
+    }//GEN-LAST:event_btnxoaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    ClearForm();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,6 +248,7 @@ public class QuanLyDichVu extends javax.swing.JFrame {
     private javax.swing.JButton btnsua;
     private javax.swing.JButton btnthem;
     private javax.swing.JButton btnxoa;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -240,11 +284,22 @@ int row = -1;
     row = tbldichvu.getSelectedRow();
     if (row >= 0) {
         String madv = (String) tbldichvu.getValueAt(row, 0);
-        Dichvu nv = daodv.getNhadvienById(madv);
+        Dichvu nv = daodv.getDichvuById(madv);
         this.setForm(nv);
         this.updateStatus();
     }
 }
+    void insert (){
+        Dichvu nv = this.getForm();
+        try {
+                daodv.addDichvu(nv); // thêm mới
+                this.fillTable(); // đỗ lại bảng
+                MsgBox.alert(this, "Thêm mới thành công!");
+            } 
+            catch (Exception e) {
+                MsgBox.alert(this, "Thêm mới thất bại!");
+            }
+    }
     void setForm(Dichvu dv) {
     txtmadv.setText(dv.getMaDV());
     txttendv.setText(dv.getTenDV());
@@ -259,5 +314,70 @@ void updateStatus() {
     btnthem.setEnabled(!edit);
     btnsua.setEnabled(edit);
     btnxoa.setEnabled(edit);
+}
+public void update() {
+    Dichvu dv = getForm(); // Lấy thông tin từ form
+
+    // Kiểm tra xem MaDV có bị thay đổi không
+    if (dv.getMaDV() == null || dv.getMaDV().isEmpty()) {
+        MsgBox.alert(this, "Mã dịch vụ không hợp lệ!");
+        return;
+    }
+
+    // Giả sử `dv` lưu trữ giá trị MaDV ban đầu của dịch vụ khi nó được tải
+    // Bạn cần phải có cơ chế để lưu trữ giá trị MaDV ban đầu và so sánh với giá trị hiện tại
+    
+    try {
+        daodv.updateDichvu(dv); // Cập nhật thông tin dịch vụ trong cơ sở dữ liệu
+        this.fillTable(); // Cập nhật lại bảng hiển thị sau khi sửa thành công
+        MsgBox.alert(this, "Cập nhật thành công!"); // Thông báo thành công
+    } catch (Exception e) {
+        MsgBox.alert(this, "Cập nhật thất bại!"); // Thông báo thất bại
+        e.printStackTrace(); // In ra thông tin lỗi để kiểm tra (nếu cần)
+    }
+}
+public Dichvu getForm() {
+    Dichvu dv = new Dichvu();
+    dv.setMaDV(txtmadv.getText());
+    dv.setTenDV(txttendv.getText());
+    dv.setGiaDV(Float.parseFloat(txtgiadv.getText()));
+
+    return dv;
+}
+
+public void delete() {
+    String MaDV = txtmadv.getText(); // Lấy mã nhân viên từ trường nhập liệu
+
+    if (MaDV.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng nhập mã nhân viên cần xóa!"); // Thông báo nếu mã nhân viên trống
+        return;
+    }
+
+    boolean confirm = MsgBox.confirm(this, "Bạn có chắc chắn muốn xóa nhân viên này không?");
+    if (confirm) {
+        try {
+            // Thực hiện xóa nhân viên từ cơ sở dữ liệu
+            daodv.deleteDichvu(MaDV);
+            
+            // Cập nhật lại bảng hiển thị sau khi xóa thành công
+            fillTable(); 
+            
+            // Thông báo thành công
+            MsgBox.alert(this, "Xóa nhân viên thành công!");
+        } catch (Exception e) {
+            // Thông báo thất bại
+            MsgBox.alert(this, "Xóa nhân viên thất bại!"); 
+            
+            // In ra thông tin lỗi để kiểm tra (nếu cần)
+            e.printStackTrace(); 
+        }
+    }
+}
+public void ClearForm(){
+    txtmadv.setText("");
+    txttendv.setText("");
+    txtgiadv.setText("");
+    btnthem.setEnabled(true);
+    this.fillTable();
 }
 }
