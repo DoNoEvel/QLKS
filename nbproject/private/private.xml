@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phamq/OneDrive/Documents/GitHub/QLKS/src/ui/DangNhap.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/DAO/DatphongDAO.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/DAO/NhanvienDAO.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/DAO/SudungdvDAO.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/DAO/KhachhangDAO.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/entity/Datphong.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/ui/QuanLyKhachHang.java</file>
+            <file>file:/C:/Users/ASUS/Documents/Netbeans%20project/QLKS/QLKS/src/ui/DangNhap.java</file>
         </group>
     </open-files>
 </project-private>
